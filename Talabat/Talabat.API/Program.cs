@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Talabat.API.Errors;
+using Talabat.API.Helpers;
 using Talabat.API.MiddleWare;
-using Talabat.API.Profiless;
 using Talabat.API.Profiless;
 using Talabat.Core.Interfaces;
 using Talabat.Core.Models;
@@ -21,31 +21,8 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
 
         // Add services to the container.
-
-        builder.Services.AddControllers();
-        // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-        builder.Services.AddEndpointsApiExplorer();
-        builder.Services.AddSwaggerGen();
         builder.Services.AddDbContext<TalabatDBContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaulfConnection")));
-        //builder.Services.AddScoped<IGenaricRepository<Product>, GenaricRepository<Product>>();
-        //builder.Services.AddScoped<IGenaricRepository<ProductBrand>, GenaricRepository<ProductBrand>>();
-        //builder.Services.AddScoped<IGenaricRepository<ProductType>, GenaricRepository<ProductType>>();
-        builder.Services.AddScoped(typeof(IGenaricRepository<>), typeof(GenaricRepository<>));
-        builder.Services.AddAutoMapper(typeof(Profiles));
-        builder.Services.Configure<ApiBehaviorOptions>(
-            option =>
-            {
-                option.InvalidModelStateResponseFactory = (ActionContext) =>
-                {
-                    var response = new ValidationError()
-                    {
-                        Errors =  ActionContext.ModelState.Where(e=>e.Value.Errors.Count()>0)
-                                               .SelectMany(e=>e.Value.Errors)
-                                               .Select(e=>e.ErrorMessage).ToList()
-                    };
-                    return new BadRequestObjectResult(response);
-                };
-            });
+        builder.Services.AddApplicationServices();
         var app = builder.Build();
 
         //{
