@@ -37,6 +37,8 @@ namespace Talabat.API.Controllers
 			return Ok(_mapper.Map< IEnumerable<Product>, IEnumerable<ProductDTO>>(product));
 		}
 
+		[ProducesResponseType(typeof(ProductDTO),StatusCodes.Status200OK)]
+		[ProducesResponseType(typeof(APIResponse), StatusCodes.Status404NotFound)]
 		[HttpGet("{id}")]
 		public async Task<ActionResult<Product>> GetProductById(int id)
         {
