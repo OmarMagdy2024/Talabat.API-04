@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Talabat.API.Errors;
+using Talabat.API.MiddleWare;
 using Talabat.API.Profiless;
 using Talabat.API.Profiless;
 using Talabat.Core.Interfaces;
@@ -69,14 +70,15 @@ public class Program
         {
             var logger = loggerfactory.CreateLogger<Program>();
             logger.LogError(ex, "An Error Occurred During Migration");
-        }        
-		// Configure the HTTP request pipeline.
+        }
+        // Configure the HTTP request pipeline.
+        app.UseMiddleware<ExceptionMiddleWare>();
 		if (app.Environment.IsDevelopment())
         {
             app.UseSwagger();
             app.UseSwaggerUI();
         }
-
+ 
         app.UseHttpsRedirection();
 
         app.UseAuthorization();
