@@ -11,10 +11,10 @@ namespace Talabat.API.Helpers
     {
         public static void AddApplicationServices(this IServiceCollection Services) 
         {
-            Services.AddControllers();
+           Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             Services.AddEndpointsApiExplorer();
-            Services.AddSwaggerGen();
+           Services.AddSwaggerGen();
             //builder.Services.AddScoped<IGenaricRepository<Product>, GenaricRepository<Product>>();
             //builder.Services.AddScoped<IGenaricRepository<ProductBrand>, GenaricRepository<ProductBrand>>();
             //builder.Services.AddScoped<IGenaricRepository<ProductType>, GenaricRepository<ProductType>>();
@@ -34,6 +34,7 @@ namespace Talabat.API.Helpers
                         return new BadRequestObjectResult(response);
                     };
                 });
+            // Add services to the container.
         }
     }
 }
